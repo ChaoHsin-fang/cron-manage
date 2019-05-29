@@ -23,7 +23,7 @@ from django.conf.global_settings import *  # noqa
 # ==============================================================================
 # 在蓝鲸智云开发者中心 -> 点击应用ID -> 基本信息 中获取 APP_ID 和 APP_TOKEN 的值
 APP_ID = 'cron-manage'
-APP_TOKEN = '7572688f-6672-4c54-b494-697b2a54f284'
+APP_TOKEN = 'b2ea48e5-06ef-4505-afb6-6940ae72a81a'
 # 蓝鲸智云开发者中心的域名，形如：http://paas.bking.com
 BK_PAAS_HOST = 'https://paas.bjbk.com:443'
 
