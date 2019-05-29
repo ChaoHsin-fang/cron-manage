@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Crontab Management System</title>
+    <!-- Bootstrap css -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css"
+        rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <!-- 当前项目样式文件 -->
+    <link href="${STATIC_URL}css/sb-admin.css" rel="stylesheet">
+    <link href="${STATIC_URL}css/sb-bk-theme.css" rel="stylesheet">
+    <!--蓝鲸平台APP 公用的样式文件 -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/base/common.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/fontawesome/css/font-awesome.min.css"
+        rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/components/button.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bk-icon-2.0/iconfont.css" rel="stylesheet">
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/html5shiv.min.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .input-group select {
+            width: 100%;
+            height: 30px;
+        }
+
+        tr td,
+        th {
+            text-align: center;
+        }
+        .dropdown  select{
+            width: 150px;
+            height:30px;
+            margin-top:10px;
+            margin-right:20px;
+        }
+        .pagination{
+            display: flex;
+            flex-direction: row;
+        }
+        .pagination li{
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+    </style>
+     <script>
+
+        // var app_id = "${APP_ID}";
+        // var site_url = "${SITE_URL}";
+        // var static_url = "${STATIC_URL}";
+
+
+
+        function TextList(){
+                var id = $("#Drop  option:selected").val();
+                 $.ajax({
+                   url: "${SITE_URL}get_biz",
+                   type: "POST",
+                 data:{
+                       "bk_biz_id":id
+                 },
+                   success: function (res) {
+                       var html = '';
+                      for (let i = 0; i < res.message.length; i++) {
+                           html += '<option value=\''+res.message[i].bk_biz_id + '\'>'+
+                               res.message[i].bk_biz_name +'</option>';
+                       }
+
+                       $("#Drop").append(html)
+
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       console.log(res)
+                   }
+               });
+        }
+        function GroupList(){
+                var id = $("#Drop  option:selected").val();
+                 $.ajax({
+                   url: "${SITE_URL}get_biz",
+                   type: "POST",
+                 data:{
+                       "bk_biz_id":id
+                 },
+                   success: function (res) {
+                       var html = '';
+                      for (let i = 0; i < res.message.length; i++) {
+                           html += '<option value=\''+res.message[i].bk_biz_id + '\'>'+
+                               res.message[i].bk_biz_name +'</option>';
+                       }
+
+                       $("#Group").append(html)
+
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       console.log(res)
+                   }
+               });
+        }
+        function Theserver(){
+                $.ajax({
+                    url: "${SITE_URL}get_server_list",
+                    type: "POST",
+                    success: function (res) {
+                        var html = '';
+                        for (let i = 0; i < res.message.length; i++) {
+                            html += '<option value=\''+res.message[i]+'\' >'+res.message[i]+'</option>'
+                        }
+                        $("#TheText").append(html);
+                        if (res['state'] == 'success') {
+                            alert("调用成功")
+                        }else{
+                            //alert(res.message)
+                        }
+                    },
+                    error: function (xhr, msg, e) {
+                        // alert(msg.toString());
+                        console.log(res)
+                    }
+                });
+        }
+
+        //任务历史变更详情页:获取后台变更数据
+        function DetailsList(id){
+        console.log(id)
+            $.ajax({
+                   url: "${SITE_URL}get_edit_detail",
+                   type: "POST",
+                    data:{
+                       "id":id
+                    },
+                   success: function (res) {
+                    totalPage = res.message;
+                    console.log(res)
+                    $("#mlen").text(totalPage.length);
+                    dynamicAddUser(0);
+                    goPage(1,9);
+                    var tempOption="";
+
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       // alert(msg.toString());
+                   }
+               });
+        }
+        var pageSize=0;//每页显示行数
+        var currentPage_=1;//当前页全局变量，用于跳转时判断是否在相同页，在就不跳，否则跳转。
+        var totalPage;//总页数
+        function goPage(pno,psize){
+            var itable = document.getElementById("History");
+            var num = itable.rows.length;//表格所有行数(所有记录数)
+
+            pageSize = psize;//每页显示行数
+            //总共分几页
+            if(num/pageSize > parseInt(num/pageSize)){
+                    totalPage=parseInt(num/pageSize)+1;
+            }else{
+                totalPage=parseInt(num/pageSize);
+            }
+            var currentPage = pno;//当前页数
+            currentPage_=currentPage;
+            var startRow = (currentPage - 1) * pageSize+1;
+            var endRow = currentPage * pageSize;
+                endRow = (endRow > num)? num : endRow;
+
+            $("#List tr").hide();
+            for(var i=startRow-1;i<endRow;i++)
+            {
+                $("#List tr").eq(i).show();
+            }
+
+            if(currentPage>1){
+                $("#prePage").on("click",function(){
+                    goPage(currentPage-1,psize);
+
+
+                }).removeClass("ban");
+            }else{
+                $("#prePage").off("click").addClass("ban");
+            }
+
+            if(currentPage<totalPage){
+                $("#nextPage").on("click",function(){
+                    goPage(currentPage+1,psize);
+                }).removeClass("ban")
+            }else{
+                $("#nextPage").off("click").addClass("ban");
+            }
+
+            $("#jumpWhere").children("li").each(function(){
+            if (currentPage == $(this).text()) {
+                    $(this).addClass("Action").siblings().removeClass("Action");
+                    var num=parseInt($(this).text());
+                // console.log(num)
+                    if (num > 2) {
+                        $(this).next().show();
+                        $(this).prev().prev().hide();
+                    }
+                    var num2 =parseInt($(this).prev().text());
+                    if (num > num2) {
+                        $(this).prev().show();
+                        $(this).next().next().hide();
+                    }
+            }
+            })
+        }
+
+        function dynamicAddUser(p) {
+            var html = '';
+            for (let i = 0; i < totalPage.length;i++){
+                var v = totalPage[i];
+                html +='<tr>'+
+                                   '<td>'+(v.operator == undefined?'无':v.operator)+'</td>'+
+                                    '<td>'+(v.cron_task_before == undefined?'无':v.cron_task_before)+'</td>'+
+                                    '<td>'+(v.cron_task_after == undefined?'无':v.cron_task_after)+'</td>'+
+                                    '<td>'+(v.last_edit_time == undefined?'无':v.last_edit_time)+'</td>'+
+                                    '<td>'+(v.operation == 2 ?"编辑":"" || v.operation == 1 ?"删除":"" || v.operation == '' ?"无":"" || v.operation == undefined ?"无":"" )+'</td>'+
+                                '</tr>'
+            }
+           $("#History").append(html)
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                    <i class="fa fa-leaf f20 mr5"></i>
+                    定时任务管理系统
+                </a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                     <select name="" id="Drop">
+                        </select>
+                </li>
+            </ul>
+            <!-- 左侧 start-->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav" style="width:190px;">
+                    <li>
+                        <a href="${SITE_URL}" data-toggle="collapse" data-target="#demo"><i
+                                class="fa fa-fw fa-arrows-v"></i> 任务管理 <i class="fa fa-fw fa-caret-down"></i></a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- 左侧 end -->
+        </nav>
+
+        <!-- 右侧 start -->
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+                <div class="row page-header-box">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            定时任务历史变更记录
+                        </h1>
+                    </div>
+                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- 查询框 end -->
+                <div style="padding-left: 225px;width: 100%;">
+                     <div class="panel panel-default">
+                    <!-- <div class="panel-heading">
+                        带边框的表格
+                    </div> -->
+                    <div class='panel-body'>
+                        <!-- 右下表格 start -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>操作人</th>
+                                         <th>变更前的任务</th>
+                                        <th>变更后的任务</th>
+                                        <th>变更时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+
+                                <!-- 定时任务历史变更详情展示-->
+
+                                <tbody id="History">
+                                    <tr>
+                                    </tr>
+                                    <!-- 分页下表 Start -->
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="pagination-info pull-left">共有<span id="mlen"></span>条，每页显示：9</div>
+                                            <div class="pull-right king-page-box">
+                                                <ul class="pagination pagination-small pull-right">
+                                                   <li><a  id="prePage">上一页</a></li>
+                                                    <li><a id="nextPage">下一页</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                                <!-- 分页下表 End -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 右下表格 end -->
+                    </div>
+                </div>
+
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- 右侧 end -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- 包括所有kendoui的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+
+</body>
+
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+            TextList();
+            Theserver();
+            GroupList();
+            DetailsList();
+    })
+    function ServerList(){
+            $("#TheText").change(function () {
+                var Server = $("#TheText option:selected").attr("value");
+                Theuser(Server);
+            });
+        }
+</script>

@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Crontab Management System</title>
+    <!-- Bootstrap css -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css"
+        rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <!-- 当前项目样式文件 -->
+     <link href="${STATIC_URL}css/sb-admin.css" rel="stylesheet">
+    <link href="${STATIC_URL}css/sb-bk-theme.css" rel="stylesheet"> -->
+    <!--蓝鲸平台APP 公用的样式文件 -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/base/common.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bk-icon-2.0/iconfont.css" rel="stylesheet">
+
+    <!-- 弹出窗 -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/artDialog-6.0.4/css/ui-dialog.css"
+        rel="stylesheet">
+
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/html5shiv.min.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/respond.min.js"></script>
+    <![endif]-->
+        <style>
+            .input-group select{
+                width: 100%;
+                height: 30px;
+            }
+            tr td,th{
+                text-align: center;
+            }
+            .glyphicon-th:before {
+                content: none;
+            }
+            .input-group[class*=col-] {
+                float: left;
+                padding-right: 0;
+                padding-left: 0;
+            }
+            .dropdown  select{
+                width: 150px;
+                height:30px;
+                margin-top:10px;
+                margin-right:20px;
+            }
+            .Impor span{
+                font-size: 15px;
+            }
+            .form-horizontal .control-label {
+                padding-top: 0px;
+                margin-bottom: 0;
+                text-align: right;
+            }
+            .Impor button{
+                background: #2180F5;
+                color: white;
+                border: none;
+                padding: 5px 12px;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                margin-bottom: 20px;
+                margin-left: 10px;
+            }
+            .ImporList{
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: none;
+                z-index: 100;
+                background: rgba(0, 0, 0, 0.5);
+            }
+            .Impor_Cen{
+                 display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+            }
+            .Impor_Ban{
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+            .pull-right button{
+                padding: 3px 10px;
+            }
+            .pull-right button:nth-child(1){
+                background: #2180F5;
+                color: white;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                 border: 1px solid #2180F5;
+            }
+            .pull-right button:nth-child(2){
+                background: white;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                border: 1px solid black;
+            }
+            .form-group ul{
+                display: flex;
+                flex-direction: row;
+                padding-left: 14px;
+            }
+            .form-group ul li input{
+                text-align: center;
+            }
+            .form-group ul li p{
+                text-align: center;
+                margin: 0 0 5px;
+                color:#999;
+            }
+            .pagination{
+                display: flex;
+                flex-direction: row;
+            }
+            .pagination li{
+                border: 1px solid black;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                margin-right: 5px;
+                cursor: pointer;
+            }
+            .pagination>li:nth-child(2){
+                border: 0;
+                -webkit-border-radius: 0;
+                -moz-border-radius: 0;
+                border-radius: 0;
+                margin-right: 0;
+            }
+            .pagination>li>a{
+                -webkit-border-radius: 3px !important;
+                -moz-border-radius: 3px !important;
+                border-radius: 3px !important;
+                padding: 0;
+                margin-left: 0;
+            }
+             .pagination li ul{
+                 padding: 0;
+            }
+            .pagination li ul li{
+                font-size: 16px;
+                font-weight: normal;
+                display: inline-block;
+                padding: 0 5px;
+                padding-top: 0;
+                color: #999;
+                border: 1px solid #999;
+                background-color: #fff;
+                margin-right: 5px;
+                cursor: pointer;
+            }
+            .pagination li ul li:hover{
+                background-color: #eee;
+            }
+            .Action{
+                color: black !important;
+                background-color: #eee !important;
+                border: 1px solid black !important;
+            }
+        </style>
+        
+    <script>
+
+        //新建定时任务
+        function NewCrontab(){
+                var  Val1 = $("#Crontab").val();//定时任务
+                var  Val2 = $("#ServerIP").val();//服务器
+                var  Val3 = $("#User").val();//用户
+                var  InputMin = $("#InputMin").val();//分钟
+                var  InputHour = $("#InputHour").val();//小时
+                var  InputDay = $("#InputDay").val();//日
+                var  InputMonth = $("#InputMonth").val();//月
+                var  InputWeek = $("#InputWeek").val();//星期
+                $("#crontab-time-modal").hide();
+               $(".modal-backdrop").hide();
+               alert("保存成功");
+                $.ajax({
+                   url: "${SITE_URL}create_crontab",
+                    type: "POST",
+                    data:{
+                       "cron_task":Val1,
+                       "server_ip": Val2,
+                        "creator":Val3,
+                        "cron_min":InputMin,
+                        "cron_hour":InputHour,
+                        "cron_day":InputDay,
+                        "cron_month":InputMonth,
+                        "cron_week":InputWeek
+                    },
+                    success: function (res) {
+
+                        console.log(res)
+                        if (res['state'] == 'success') {
+                            alert("调用成功")
+
+                        }else{
+                        }
+                },
+                error: function (xhr, msg, e) {
+                    // alert(msg.toString());
+                }
+
+            });
+        }
+        // var app_id = "${APP_ID}";
+        // var site_url = "${SITE_URL}";
+        // var static_url = "${STATIC_URL}";
+
+           //启动定时任务
+        function Implement(id){
+            $.ajax({
+                url: "${SITE_URL}start_crontab",
+                type: "POST",
+                data:{
+                    "id":id
+                },
+                success: function (res) {
+                    if (res['state'] == 'success') {
+                        alert("调用成功")
+                    }else{
+                        alert(res.message)
+                    }
+                },
+                error: function (xhr, msg, e) {
+                    // alert(msg.toString());
+                }
+
+            });
+        }
+        //编辑定时任务弹框里的保存按钮
+        function SaveCrontab(){
+            $("#EditBox").hide();
+            var ID = $("#EditCron").html();
+            var EditCrontab= $("#EditCrontab").val();//定时任务
+            var  InpList1= $("#InpList1").val();//分钟
+            var InpList2=$("#InpList2").val();//时
+            var InpList3 =$("#InpList3").val();//天
+            var InpList4=$("#InpList4").val();//月
+            var InpList5 = $("#InpList5").val();//周
+            $.ajax({
+                url: "${SITE_URL}save_crontab",
+                type: "POST",
+                data:{
+                    "id":ID,
+                    "cron_task":EditCrontab,
+                    "cron_min":InpList1,
+                    "cron_hour":InpList2,
+                    "cron_day":InpList3,
+                    "cron_month":InpList4,
+                    "cron_week":InpList5,
+                    },
+                success: function (res) {
+                    if (res['state'] == 'success') {
+                        alert("调用成功")
+                        console.log(EditCrontab)
+                    }else{
+
+                    }
+                },
+                error: function (xhr, msg, e) {
+                    // alert(msg.toString());
+                }
+
+            });
+        }
+        //用户点击编辑弹出弹框
+        function EditList(id){
+           $("#EditBox").show();
+           $("#EditCron").html(id);
+           $.ajax({
+                url: "${SITE_URL}edit_crontab",
+                type: "POST",
+                data:{
+                   "id":id
+                },
+                success: function (res) {
+                    $("#EditCrontab").val(res.cron_task);
+                    $("#InpList1").val(res.cron_min);//分钟
+                     $("#InpList2").val(res.cron_day);//天
+                    $("#InpList3").val(res.cron_hour);//日
+                    $("#InpList4").val(res.cron_month);//月
+                     $("#InpList5").val(res.cron_week);//周
+                    if (res['state'] == 'success') {
+                        alert("调用成功")
+                    }else{
+
+                    }
+                },
+                error: function (xhr, msg, e) {
+                    // alert(msg.toString());
+                }
+
+            });
+        }
+        function CrontabSave() {
+            $("#EditBox").hide();
+        }
+
+        <!--删除定时任务-->
+
+        function DeleteList(obj,id){
+            $(obj).parents().parents().parents().eq(0).remove();
+            console.log(id)
+            $.ajax({
+                url: "${SITE_URL}delete_crontab",
+                type: "POST",
+                data:{
+                    "id":id
+                },
+                success: function (res) {
+                    if (res['state'] == 'success') {
+                        alert("调用成功")
+                    }else{
+                        alert(res.message)
+                    }
+                },
+                error: function (xhr, msg, e) {
+                    // alert(msg.toString());
+                }
+
+            });
+        }
+
+        function Theserver(){
+                $.ajax({
+                    url: "${SITE_URL}get_server_list",
+                    type: "POST",
+                    success: function (res) {
+                        var html = '';
+                        for (let i = 0; i < res.message.length; i++) {
+                            html += '<option value=\''+res.message[i]+'\' >'+res.message[i]+'</option>'
+                        }
+                        $("#Server").append(html);
+                        $("#ServerIP").append(html);
+                        if (res['state'] == 'success') {
+                            alert("调用成功")
+                        }else{
+                            //alert(res.message)
+                        }
+                    },
+                    error: function (xhr, msg, e) {
+                        // alert(msg.toString());
+                        console.log(res)
+                    }
+                });
+        }
+
+
+        function Theuser(Server){
+            var id = $("#Drop  option:selected").val();
+                 $.ajax({
+                    url: "${SITE_URL}get_crontab_users",
+                    type: "POST",
+                     data:{
+                        "bk_biz_id": id,
+                        "ip": Server
+                    },
+                    success: function (res) {
+                        var html = '';
+                        //console.log(res.message)
+                        //for (let i = 0; i < res.message.length; i++) {
+
+                         //   html += '<option value="">'+ res.message[i]+'</option>'
+
+                        //}
+
+                        //$("#TheList").append(html)
+
+
+                        if (res['state'] == 'success') {
+                            alert("调用成功")
+                        }else{
+                            //alert(res.message)
+                        }
+                    },
+                    error: function (xhr, msg, e) {
+                        // alert(msg.toString());
+                        //console.log(res)
+                    }
+
+                });
+        }
+
+       <!--业务选择-->
+        function TextList(id){
+                $.ajax({
+                   url: "${SITE_URL}get_biz",
+                   type: "POST",
+                   success: function (res) {
+                       console.log(id)
+                       var html = '';
+                      for (let i = 0; i < res.message.length; i++) {
+                               html += '<option value=\''+res.message[i].bk_biz_id + '\'>'+
+                               res.message[i].bk_biz_name +'</option>';
+                       }
+
+                       $("#Drop").append(html)
+
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       console.log(res)
+                   }
+               });
+        }
+        <!--展示当前业务-->
+        function TiemList(id,name){
+            if (id == undefined){
+                $.ajax({
+                   url: "${SITE_URL}get_current_biz",
+                   type: "POST",
+                   success: function (res) {
+                       console.log(id)
+
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       console.log(res)
+                   }
+               });
+            } else{
+                $.ajax({
+                   url: "${SITE_URL}get_current_biz",
+                   type: "POST",
+                   data:{
+                       "bk_biz_id":id,
+                       "bk_biz_name":name
+                 },
+                   success: function (res) {
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                   }
+               });
+            }
+        }
+        function Business(){
+             $.ajax({
+                   url: "${SITE_URL}get_biz",
+                   type: "POST",
+                   success: function (res) {
+                        var html = '';
+                        for (let i = 0; i < res.message.length; i++) {
+                          html += '<option value=\''+res.message[i].bk_biz_name+ '\'>'+res.message[i].bk_biz_name+'</option>';
+                        }
+
+                        $("#TheList").append(html)
+
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       console.log(res)
+                   }
+               });
+
+        }
+
+          //多条件查询
+        function PassValue(){
+            var user = $("#User2 option:selected").val();//用户
+            var Server = $("#Server option:selected").val();// 服务器
+            var start_date1 = $("#dtp_input2").val();//开始时间
+            var start_date2 = $("#dtp_input").val();//结束时间
+            var status = $("#Option  option:selected").val();//状态
+            $.ajax({
+                   url: "${SITE_URL}search_crontabs",
+                   type: "POST",
+               data:{
+                    "ip": Server, // 服务器
+                    "user":user, //用户
+                    "status":status,//状态
+                    "start_date":start_date1,//开始时间
+                    "end_date":start_date2//结束时间
+                },
+                   success: function (res) {
+                    totalPage = res.message;
+                    console.log(res)
+                    $("#mlen").text(totalPage.length);
+                    dynamicAddUser(0);
+                    goPage(1,9);
+                    var tempOption="";
+                    for(var i=1;i<=totalPage;i++)
+                    {
+                        tempOption+='<li onclick="jumpPage(this);">'+i+'</li>';
+                    }
+                    $("#jumpWhere").html(tempOption);
+
+                    $("#jumpWhere").children("li").eq(0).addClass("Action");
+                    $("#jumpWhere").children("li").each(function(){
+                        if ($(this).index() > 2) {
+                            $(this).hide();
+                        }
+                    })
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       // alert(msg.toString());
+                   }
+               });
+        }
+        var pageSize=0;//每页显示行数
+        var currentPage_=1;//当前页全局变量，用于跳转时判断是否在相同页，在就不跳，否则跳转。
+        var totalPage;//总页数
+        function goPage(pno,psize){
+            var itable = document.getElementById("List");
+            var num = itable.rows.length;//表格所有行数(所有记录数)
+
+            pageSize = psize;//每页显示行数
+            //总共分几页
+            if(num/pageSize > parseInt(num/pageSize)){
+                    totalPage=parseInt(num/pageSize)+1;
+            }else{
+                totalPage=parseInt(num/pageSize);
+            }
+            var currentPage = pno;//当前页数
+            currentPage_=currentPage;
+            var startRow = (currentPage - 1) * pageSize+1;
+            var endRow = currentPage * pageSize;
+                endRow = (endRow > num)? num : endRow;
+
+            $("#List tr").hide();
+            for(var i=startRow-1;i<endRow;i++)
+            {
+                $("#List tr").eq(i).show();
+            }
+
+            if(currentPage>1){
+                $("#prePage").on("click",function(){
+                    goPage(currentPage-1,psize);
+
+
+                }).removeClass("ban");
+            }else{
+                $("#prePage").off("click").addClass("ban");
+            }
+
+            if(currentPage<totalPage){
+                $("#nextPage").on("click",function(){
+                    goPage(currentPage+1,psize);
+                }).removeClass("ban")
+            }else{
+                $("#nextPage").off("click").addClass("ban");
+            }
+
+            $("#jumpWhere").children("li").each(function(){
+            if (currentPage == $(this).text()) {
+                    $(this).addClass("Action").siblings().removeClass("Action");
+                    var num=parseInt($(this).text());
+                // console.log(num)
+                    if (num > 2) {
+                        $(this).next().show();
+                        $(this).prev().prev().hide();
+                    }
+                    var num2 =parseInt($(this).prev().text());
+                    if (num > num2) {
+                        $(this).prev().show();
+                        $(this).next().next().hide();
+                    }
+            }
+            })
+        }
+        function jumpPage(obj)
+        {
+            $(obj).addClass("Action").siblings().removeClass("Action")
+            var num=parseInt($(obj).text());
+            if (num > 2) {
+                $(obj).next().show();
+                $(obj).prev().prev().hide();
+            }
+            var num2 =parseInt($(obj).prev().text());
+            if (num > num2) {
+                $(obj).prev().show();
+                $(obj).next().next().hide();
+            }
+            if(num!=currentPage_)
+            {
+                goPage(num,pageSize);
+            }
+        }
+        function dynamicAddUser(p) {
+            var html = '';
+            for (let i = 0; i < totalPage.length;i++){
+                var v = totalPage[i];
+
+                html += '<tr>'+
+                            '<td>'+v.id+'</td>'+
+                            '<td>'+v.cron_task+'</td>'+
+                            '<td>'+v.cron_expression+'</td>'+
+                            '<td>'+v.creator+'</td>'+
+                            '<td>'+v.create_time+'</td>'+
+                            '<td>'+v.server_ip+'</td>'+
+                            '<td>' +
+                                '<a class="king-btn-demo king-btn king-btn-icon king-primary" title="详情" href="${SITE_URL}cron_history/"  onclick="DetailsList(this,\''+v.id+'\');">' +
+                                '    <i class="fa fa-search btn-icon" style="font-size:15px;"></i>' +
+                                '</a></td>'+
+                            '<td>'+
+                                <!--'<a href="#" class="bk-icon-button bk-info" title="执行">'+-->
+                                   //'<i class="bk-icon icon-play2" onclick="Implement(\''+v.id+ '\');"></i>'+
+                                '</a>'+
+                                '<a class="bk-icon-button bk-info" title="编辑">'+
+                                    '<i class="bk-icon icon-edit" onclick="EditList(\''+v.id+ '\');"></i>'+
+                                '</a>'+
+                                '<a class="dome-box confirmation-demo bk-icon-button bk-info" title="删除" data-toggle="confirmation-popout" data-placement="left" data-original-title="">'+
+                                    '<i class="bk-icon icon-delete" onclick="DeleteList(this,\''+v.id+ '\');"></i>'+
+                                '</a>'+
+
+                            '</td>'+
+                        '</tr>';
+            }
+            $("#List").html(html)
+        }
+        function DetailsList(obj,id){
+
+              $.ajax({
+                   url: "${SITE_URL}get_edit_detail",
+                   type: "POST",
+                   data:{
+                       "id":id
+                   },
+                   success: function (res) {
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       //console.log(res)
+                   }
+               });
+        }
+
+        //
+        function ServerBan(){
+             $.ajax({
+                   url: "${SITE_URL}select_server",
+                   type: "GET",
+                   success: function (res) {
+                       console.log(res)
+
+                    totalPage2 = res.message;
+                    $("#mlen2").text(totalPage2.length);
+                    dynamicAddUser2(0);
+                    goPage2(1,5);
+                    var tempOption="";
+                    console.log()
+                    for(var i=1;i<=totalPage2;i++)
+                    {
+                        console.log(i)
+                        tempOption+='<li onclick="jumpPage2(this);">'+i+'</li>';
+                    }
+                    $("#jumpWhere2").html(tempOption);
+
+                    $("#jumpWhere2").children("li").eq(0).addClass("Action");
+                    $("#jumpWhere2").children("li").each(function(){
+                        if ($(this).index() > 2) {
+                            $(this).hide();
+                        }
+                    })
+
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       console.log(res)
+                   }
+               });
+
+        }
+        var pageSize2=0;//每页显示行数
+        var currentPage_1=1;//当前页全局变量，用于跳转时判断是否在相同页，在就不跳，否则跳转。
+        var totalPage2;//总页数
+        function goPage2(pno,psize){
+            var itable = document.getElementById("List");
+            var num = itable.rows.length;//表格所有行数(所有记录数)
+
+            pageSize2 = psize;//每页显示行数
+            //总共分几页
+            if(num/pageSize2 > parseInt(num/pageSize2)){
+                    totalPage2=parseInt(num/pageSize2)+1;
+            }else{
+                totalPage2=parseInt(num/pageSize2);
+            }
+            var currentPage = pno;//当前页数
+            currentPage_1=currentPage;
+            var startRow = (currentPage - 1) * pageSize2+1;
+            var endRow = currentPage * pageSize2;
+                endRow = (endRow > num)? num : endRow;
+
+            $("#List tr").hide();
+            for(var i=startRow-1;i<endRow;i++)
+            {
+                $("#List tr").eq(i).show();
+            }
+
+            if(currentPage>1){
+                $("#prePage2").on("click",function(){
+                    goPage2(currentPage-1,psize);
+
+
+                }).removeClass("ban");
+            }else{
+                $("#prePage2").off("click").addClass("ban");
+            }
+
+            if(currentPage<totalPage2){
+                $("#nextPage2").on("click",function(){
+                    goPage2(currentPage+1,psize);
+                }).removeClass("ban")
+            }else{
+                $("#nextPage2").off("click").addClass("ban");
+            }
+
+            $("#jumpWhere2").children("li").each(function(){
+            if (currentPage == $(this).text()) {
+                    $(this).addClass("Action").siblings().removeClass("Action");
+                    var num=parseInt($(this).text());
+                // console.log(num)
+                    if (num > 2) {
+                        $(this).next().show();
+                        $(this).prev().prev().hide();
+                    }
+                    var num2 =parseInt($(this).prev().text());
+                    if (num > num2) {
+                        $(this).prev().show();
+                        $(this).next().next().hide();
+                    }
+            }
+            })
+        }
+        function jumpPage2(obj)
+        {
+            $(obj).addClass("Action").siblings().removeClass("Action")
+            var num=parseInt($(obj).text());
+            if (num > 2) {
+                $(obj).next().show();
+                $(obj).prev().prev().hide();
+            }
+            var num2 =parseInt($(obj).prev().text());
+            if (num > num2) {
+                $(obj).prev().show();
+                $(obj).next().next().hide();
+            }
+            if(num!=currentPage_1)
+            {
+                goPage2(num,pageSize2);
+            }
+        }
+        function dynamicAddUser2(p) {
+            var html = '';
+            for (let i = 0; i < totalPage2.length;i++){
+                var v = totalPage2[i];
+                html +=  '<tr>'+
+                            '<td>'+
+                                '<input type="checkbox" value="" name="cheoll">'+
+                            '</td>'+
+                            '<td>'+v.bk_host_innerip+'</td>'+
+                            '<td>'+v.bk_os_name+'</td>'+
+                            '<td>'+v.bk_host_name+'</td>'+
+                        '</tr>';
+            }
+            $("#ImporBan").append(html)
+        }
+        //勾选服务器导入定时任务
+        function ServerCrontab(){
+            var num = new Array();
+
+            $('#table_demo2').find('input[name="cheoll"]').each(function(i){
+                if ($(this).prop("checked")) {
+                    num += $(this).parents().parents().eq(0).children("td").eq(1).text() + ",";
+                }
+            });
+            var snm = num.slice(0,-1);
+            console.log(snm)
+            //num.slice(0,-1)
+             var id = $("#Drop  option:selected").val();
+           // 服务器定时任务入库
+             $.ajax({
+                   url: "${SITE_URL}get_server_crontab",
+                   type: "POST",
+                   data:{
+                       "bk_biz_id":id,
+                        "ip":snm
+                   },
+                   success: function (res) {
+
+                       if (res['state'] == 'success') {
+                           alert("调用成功")
+                       } else {
+                          // alert(res.message)
+                       }
+                   },
+                   error: function (xhr, msg, e) {
+                       // alert(msg.toString());
+                       //console.log(res)
+                   }
+               });
+
+        }
+        //新建弹框清空输入框内容
+        function NewaddBtn(obj) {
+            $("#Crontab").val("");//定时任务
+            $("#ServerIP").val("");//服务器
+            $("#User").val("");//用户
+            $("#InputMin").val("");//分钟
+            $("#InputHour").val("");//小时
+            $("#InputDay").val("");//日
+            $("#InputMonth").val("");//月
+            $("#InputWeek").val("");//星期
+        }
+    </script>
+</head>
+
+
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                    <i class="fa fa-leaf f20 mr5"></i>
+                    定时任务管理系统
+                </a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                     <select name="" id="Drop">
+                        </select>
+                </li>
+            </ul>
+            <!-- 左侧 start-->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav" style="width:190px;">
+                    <li>
+                        <a href="${SITE_URL}" data-toggle="collapse" data-target="#demo" style="font-size: 16px;"><i
+                                class="fa fa-fw fa-arrows-v"></i> 任务管理 <i class="fa fa-fw fa-caret-down"></i></a>
+                    </li>
+                    <!--<li ><a href="${SITE_URL}cron_history/"><span>任务历史变更记录</span> </a></li>-->
+                </ul>
+            </div>
+            <!-- 左侧 end -->
+        </nav>
+        <!-- 右侧 start -->
+        <div id="page-wrapper">
+
+            <div class="container-fluid" style="padding-left: 0; ">
+                <div class="row page-header-box">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            定时任务管理系统  / 任务管理
+                        </h1>
+                    </div>
+                </div>
+                <div class="Impor">
+                    <span>任务计划导入 :  </span>
+                    <button onclick="Impor(this);">   选择服务器</button>
+                </div>
+                <!-- 查询框 start -->
+                <div class="panel panel-default">   
+                    <div class='panel-body'>
+                        <div class="row">
+                            <form role="form" style="display: flex;flex-flow: row wrap;">
+                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">服务器</div>
+                                            <!-- <input class="form-control" type="email"> -->
+                                            <select name="" id="Server">
+                                                <option value='' ></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group date col-sm-6 col-md-6 col-lg-4" id="plugin9_demo1" readonly="readonly"  data-date-format="yyyy-mm-dd HH:ii:00"  data-link-field="dtp_input1" >
+                                        <span class="input-group-addon"><span class="glyphicon-th"></span>起始时间</span></span>
+                                        <input type="text" id="dtp_input2" style="width: 230px;" >
+                                        <br>
+                                    </div>
+                                 <div class="input-group date col-sm-6 col-md-6 col-lg-4" id="plugin9_demo2" data-date-format="yyyy-mm-dd HH:ii:00"  data-link-field="dtp_input1" >
+                                        <span class="input-group-addon"><span class="glyphicon-th"></span>结束时间</span></span>
+                                        <input id="dtp_input"  type="text"  style="width: 230px;">
+                                    </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">用户</div>
+                                            <!-- <input class="form-control" type="email"> -->
+                                            <select name="" id="User2" >
+                                                <option value=""></option>
+                                                <option value="root">root</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4" style="padding:0;">
+                                    <div class="form-group">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4"  style="padding:0;">
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <hr class="mt5 mb15">
+                                    <span  class="king-btn king-info" onclick="PassValue();">查询</span>
+                                    <button type="submit" class="king-btn king-success">重置</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- 查询框 end -->
+                <div class="panel panel-default">
+                    
+
+                    <div class='panel-body'>
+                        <!-- 右下表格 start -->
+                        
+                        <div class="king-wrapper clearfix">
+                            <div style="font-weight:900;font-size:1.7rem;width: 50%;">
+                                任务计划展示
+                            </div>
+                            <button id="addBtn" data-code="2" data-toggle="modal" data-target="#crontab-time-modal" class="king-btn-demo king-btn king-info pull-right" onclick="NewaddBtn(this);">
+                                新建
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                                <!-- 表格抬头 start -->
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>任务名称</th>
+                                        <th>时间表达式</th>
+                                        <th>用户</th>
+                                        <th>创建时间</th>
+                                        <th>服务器</th>
+                                        <th>历史变更记录</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <!-- 表格抬头 end -->
+                                <!-- 表格内容 start -->
+                                <tbody id="List">
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="9">
+                                            <div class="pagination-info pull-left">共有<span id="mlen"></span>条，每页显示：9条</div>
+                                            <div class="pull-right king-page-box">
+                                                <ul class="pagination pagination-small pull-right">
+                                                    <li><a  id="prePage">上一页</a></li>
+                                                    <li>
+                                                        <ul id="jumpWhere">
+                                                        </ul>
+                                                    </li>
+                                                    <li><a id="nextPage">下一页</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                                <!-- 分页下表 End -->
+                                </tbody>
+                            </table>
+                            
+                        </div>
+
+
+                        <!-- Modal start -->  <!--新建定时任务弹出框-->
+                        <div class="modal fade h1000" id="crontab-time-modal" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel">
+                        <div class="modal-dialog chinesecron i18cron" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">新建定时任务</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" id ="CronTask"style="width: 20%;">定时任务<span
+                                                    class="red">&nbsp;*&nbsp;</span>:</label>
+                                            <div class="col-sm-10" style="width: 76%;">
+                                                <input type="hidden" id="crontabTaskId">
+                                                <!-- <input type="text" class="form-control" id="crontabName" maxlength="25" style="width: 400px;"> -->
+                                                <input type="text" class="form-control" id="Crontab"
+                                                    maxlength="25" style="width: 100%;" data-content="1234567"
+                                                    data-placement="top">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"id ="ServerIp" style="width: 20%;">服务器<span
+                                                    class="red">&nbsp;*&nbsp;</span>:</label>
+                                            <div class="col-sm-10" style="width: 76%;">
+                                                <input type="hidden" id="crontabTaskId">
+                                                <!-- <input type="text" class="form-control" id="crontabName" maxlength="25" style="width: 400px;"> -->
+                                                <select name="" id="ServerIP" style="width: 100%;height: 30px;">
+                                                     <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!--新建定时任务弹出框-->
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" style="width: 20%;">用户<span
+                                                    class="red">&nbsp;*&nbsp;</span>:</label>
+                                            <div class="col-sm-10 i18ccc" style="width: 76%;">
+                                                <!-- <select class="form-control searchInput" id="taskId" style="width: 400px;"></select> -->
+                                               <input type="text" class="form-control" id="User"
+                                                    style="width: 100%;">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" id = "CronTime"style="width: 20%;">定时表达式<span
+                                                    class="red">&nbsp;*&nbsp;</span>:</label>
+                                            <ul>
+                                                <li>
+                                                    <p>分钟</p>
+                                                    <input type="text" class="form-control"  id="InputMin">
+                                                </li>
+                                                <li>
+                                                    <p>小时</p>
+                                                    <input type="text" class="form-control" id="InputHour">
+                                                </li>
+                                                <li>
+                                                    <p>日</p>
+                                                    <input type="text" class="form-control" id="InputDay">
+                                                </li>
+                                                <li>
+                                                    <p>月</p>
+                                                    <input type="text" class="form-control" id="InputMonth">
+                                                </li>
+                                                <li>
+                                                    <p>星期</p>
+                                                    <input type="text" class="form-control" id="InputWeek">
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="form-group none">
+                                            <label class="col-sm-2 control-label">作业名称<span
+                                                    class="red">&nbsp;*&nbsp;</span>:</label>
+                                            <div class="col-sm-10">
+                                                <!-- <input type="text" class="form-control" id="taskName" style="width: 400px;" disabled> -->
+                                                <input type="text" class="form-control" id="taskName"
+                                                    style="width: 90%;" disabled>
+
+                                            </div>
+                                        </div>
+                                        <div id="cronTab"></div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="crontabSave"  onclick="NewCrontab(this)"> 保存</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                        style="min-width: 100px">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    <!-- Modal end -->
+                    
+                    <!-- 右下表格 end -->
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- 右侧 end -->
+
+    </div>
+
+    <!--选择服务器列表弹出框-->
+    <div class="ImporList" id="ImporList">
+        <div class="Impor_Cen">
+            <div class="Impor_Ban" onclick="ImporBan(this);"></div>
+            <div class="panel-content" style="width: 600px;z-index:100;">
+                <table class="table table-header-bg table-hover mb0" id="table_demo2">
+                    <thead>
+                        <tr>
+                            <th style="width: 25px">
+                                <input type="checkbox" name="checkall" value="">
+                            </th>
+                            <th>IP</th>
+                            <th>操作系统</th>
+                            <th>主机名</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ImporBan">
+
+                    </tbody>
+                    <tfoot>
+                     <tr>
+                            <td colspan="9">
+                                <div class="pagination-info pull-left">共有<span id="mlen2"></span>条，每页显示：5条</div>
+                                <div class="pull-right king-page-box">
+                                    <ul class="pagination pagination-small pull-right">
+                                        <li><a  id="prePage2">上一页</a></li>
+                                        <li>
+                                            <ul id="jumpWhere2">
+                                            </ul>
+                                        </li>
+                                        <li><a id="nextPage2">下一页</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <div class="pull-right">
+                                    <button onclick="ServerCrontab();">导入</button>
+                                    <button onclick="ImporQX(this);">取消</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--//编辑定时任务弹出框-->
+
+    <div class="ImporList" id="EditBox">
+        <div class="Impor_Cen">
+            <div class="Impor_Ban" onclick="ImporBan(this);"></div>
+            <div class="panel-content" style="width: 600px;z-index:100;background: white;">
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                         <h3>编辑定时任务</h3>
+                        <div class="form-group"> <label class="col-sm-2 control-label" style="width: 20%;">ID<span
+                                    class="red">&nbsp;&nbsp;</span>:</label><span id="EditCron"    style="margin-left: 20px;"></span></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" style="width: 20%;">定时任务<span
+                                    class="red">&nbsp;*&nbsp;</span>:</label>
+                            <div class="col-sm-10" style="width: 76%;">
+                                <input type="hidden" id="crontabTaskId">
+                                <!-- <input type="text" class="form-control" id="crontabName" maxlength="25" style="width: 400px;"> -->
+                                <input type="text" class="form-control" id="EditCrontab"
+                                    maxlength="25" style="width: 100%;" data-content="1234567"
+                                    data-placement="top">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" style="width: 20%;">定时表达式<span
+                                    class="red">&nbsp;*&nbsp;</span>:</label>
+                            <ul>
+                                <li>
+                                    <p>分钟</p>
+                                    <input type="text" class="form-control" id="InpList1">
+                                </li>
+                                <li>
+                                    <p>小时</p>
+                                    <input type="text" class="form-control" id="InpList2">
+                                </li>
+                                <li>
+                                    <p>日</p>
+                                    <input type="text" class="form-control" id="InpList3">
+                                </li>
+                                <li>
+                                    <p>月</p>
+                                    <input type="text" class="form-control" id="InpList4">
+                                </li>
+                                <li>
+                                    <p>星期</p>
+                                    <input type="text" class="form-control" id="InpList5">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="form-group none">
+                            <label class="col-sm-2 control-label">作业名称<span
+                                    class="red">&nbsp;*&nbsp;</span>:</label>
+                            <div class="col-sm-10">
+                                <!-- <input type="text" class="form-control" id="taskName" style="width: 400px;" disabled> -->
+                                <input type="text" class="form-control" id="taskName"
+                                    style="width: 90%;" disabled>
+                            </div>
+                        </div>
+                        <!-- <jsp:include page="cronTab.jsp" /> -->
+                        <div id="cronTab"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="crontabSave" onclick="SaveCrontab(this);">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                        style="min-width: 56px" onclick="CrontabSave(this);">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- 包括所有kendoui的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+    <!-- 弹出窗 -->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/artDialog-6.0.4/dist/dialog-min.js"></script>
+    <!-- 弹出窗 本地实现 -->
+    <script type="text/javascript">
+
+    </script>
+    </div>
+
+</body>
+
+</html>
+<link href="https://magicbox.bk.tencent.com/static_api/v3/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/datetimepicker/js/locales/bootstrap-datetimepicker.zh-TW.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+    //         // 日历插件
+            GetMyData();
+            GetMyData2();
+            Theserver();
+            Theuser();
+            TextList();
+            Business();
+            ServerBan();
+    })
+    // 日期选择器(Bootstrap)-1，日期时间选择
+    function GetMyData(){
+        $("#plugin9_demo1").datetimepicker({
+        language:  "zh-TW",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView:2,
+            forceParse: 1,
+            showSecond:1,
+            minuteStep:1,
+            todayButton: false,
+            prevButton: false,
+            nextButton: false,
+        })
+
+    }
+
+    function GetMyData2(){
+        $("#plugin9_demo2").datetimepicker({
+        language:  "zh-TW",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView:2,
+            forceParse: 1,
+            showSecond:1,
+            minuteStep:1,
+        }).on('changeDate', change_date);
+    }
+     function change_date(e) {
+            var start_date1 = $("#dtp_input2").val();
+            var start_date2 = $("#dtp_input").val();
+            if (start_date1 > start_date2){
+                alert("请选择正确的时间！");
+            }else{
+            }
+
+        };
+        function ServerList(){
+            $("#Server").change(function () {
+                var Server = $("#Server option:selected").attr("value");
+                Theuser(Server);
+            });
+        }
+        ServerList();
+        function ImporBan(obj) {
+            $(obj).parents().parents().eq(0).hide();
+        }
+        function  ImporQX(obj) {
+            $("#ImporList").hide();
+        }
+        function Impor(obj){
+            $("#ImporList").show();
+            $('input[name="cheoll"]').prop("checked",false);
+        }
+         $('#table_demo2').find('input[name="checkall"]').click(function(){
+                var checked = $(this).prop('checked');
+                $('#table_demo2>tbody input').prop('checked', checked);
+            });
+            $('#table_demo2').find(':checkbox').on('click', function(){
+                if(!this.checked){
+                    $('#table_demo2').find('input[name="checkall"]').prop('checked',false);
+                }
+            });
+
+       <!--传参用户勾选的 业务id和业务名称-->
+        function OptionList(ID){
+            $("#Drop").change(function () {
+                var ID = $("#Drop option:selected").attr("value");
+                var name = $("#Drop option:selected").text();
+                TiemList(ID,name)
+            });
+        }
+        OptionList();
+</script>

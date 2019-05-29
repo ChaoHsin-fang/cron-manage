@@ -1,0 +1,24 @@
+.scriptSource{
+	display: none;
+	background-color: #f3f3f4;
+	margin-left: 170px !important;
+    padding: 15px 15px 15px 15px;
+    border: 1px solid #e3e3e3;
+}
+
+.ii-input{width:800px;display:inline-block;vertical-align: top;position:relative;}
+
+.ii-oppoint{
+	display: inline-block;
+	width: 200px;
+}
+.ii-oppoint .select-oppint{
+	width: 100%;
+	height: 34px;
+}
+
+.ii-info-box {
+    position: relative;
+    margin-top: 20px;
+}
+
