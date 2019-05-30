@@ -4,6 +4,7 @@ from django.db import models
 
 #  定时任务信息表
 class CrontabInfo(models.Model):
+    id = models.AutoField(primary_key=True)
     server_ip = models.CharField(u"服务器IP", max_length=100)
     bk_biz_id = models.CharField(u"业务ID", max_length=30)
     bk_biz_name = models.CharField(u"业务名称", max_length=100)
@@ -24,6 +25,7 @@ class CrontabInfo(models.Model):
 
 # 任务历史修改记录表
 class CrontabChangeHistory(models.Model):
+    id = models.AutoField(primary_key=True)
     operator = models.CharField(u"变更操作人:平台当前登录用户", max_length=100)
     cron_task_before = models.CharField(u"变更之前的定时任务", max_length=3000)
     cron_task_after = models.CharField(u"变更之后的定时任务", max_length=3000)
@@ -40,6 +42,7 @@ class CrontabChangeHistory(models.Model):
 
 # 业务信息表
 class BusinessInfo(models.Model):
+    id = models.AutoField(primary_key=True)
     bk_biz_id = models.CharField(u"业务id", max_length=100)
     bk_biz_name = models.CharField(u"业务名称", max_length=100)
     current_biz = models.CharField(u"当前业务 标识为1", max_length=100, default= 0)
